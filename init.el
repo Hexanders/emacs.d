@@ -11,5 +11,5 @@
 
 (load-theme 'modus-vivendi t)		;;dark theme
 
-(set-face-attribute 'default nil :height 120) ;;set font size to 12pt so
+(set-face-attribute 'default nil :height 125) ;;set font size to heigth/10 pt
 
