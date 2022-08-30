@@ -8,5 +8,8 @@
 (hl-line-mode 1)			;;highlight whole line
 (blink-cursor-mode 1)
 
+
 (load-theme 'modus-vivendi t)		;;dark theme
+
+(set-face-attribute 'default nil :height 120) ;;set font size to 12pt so
 
