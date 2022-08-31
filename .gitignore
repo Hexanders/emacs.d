@@ -12,6 +12,7 @@
 # Installed packages
 /elpa/
 /.cask/
+/eln-cache/
 
 # Recovery and backup directories
 /auto-save-list/

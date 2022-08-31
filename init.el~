@@ -18,7 +18,6 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-;;from hier some stuff wich was added by packag-list-packag
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
