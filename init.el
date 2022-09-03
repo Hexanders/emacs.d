@@ -5,14 +5,25 @@
 ;; Tell emacs where is your personal elisp lib dir
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+(load-theme 'modus-vivendi t)		;;dark theme
+(set-face-attribute 'default nil :height 135) ;;set font size to heigth/10 pt
+
+
+
 (load "tabbar-tweak")			;tabbar config for tabs like in browser
 ;; (package-initialize)			;some older version og emacs requer this for (require 'use-package)
+(load "latex_config")	  
+(load "python_config")
+
+(add-to-list 'load-path			;load yasnippets
+              "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas-global-mode 1)
+
 
 (define-key global-map (kbd "C-+") 'text-scale-increase) ;; increase/decrease font size
 (define-key global-map (kbd "C--") 'text-scale-decrease)
 
-(load "latex_config")	  
-(load "python_config") 
 
 (setq-default ispell-program-name "aspell") ;; aspell is better as ispell but call it still ispell :) ;; commend out this line if not installed or install aspell
 
@@ -34,9 +45,9 @@
 (blink-cursor-mode 1)
 
 
-(load-theme 'modus-vivendi t)		;;dark theme
 
-(set-face-attribute 'default nil :height 135) ;;set font size to heigth/10 pt
+
+
 
 
 ;; load  packages
@@ -74,7 +85,7 @@ buffer is not visiting a file."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex zotelo zotero))
+   '(yasnippet tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex zotelo zotero))
  '(tabbar-separator '(0.5))
  '(warning-suppress-log-types '((comp)))
  '(warning-suppress-types '((auto-save))))
