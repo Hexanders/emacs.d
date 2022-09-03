@@ -6,6 +6,14 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 (load "tabbar-tweak")			;tabbar config for tabs like in browser
+;; (package-initialize)			;some older version og emacs requer this for (require 'use-package)
+
+(define-key global-map (kbd "C-+") 'text-scale-increase) ;; increase/decrease font size
+(define-key global-map (kbd "C--") 'text-scale-decrease)
+
+(global-set-key (kbd "C-x t") 'ansi-term) ; terminal
+(add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
+
 
 (setq inhibit-startup-message t 	;;turn off message 
       visible-bell t			;;visual  
@@ -46,7 +54,9 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex zotelo zotero))
- '(warning-suppress-log-types '((comp))))
+ '(tabbar-separator '(0.5))
+ '(warning-suppress-log-types '((comp)))
+ '(warning-suppress-types '((auto-save))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -5,5 +5,5 @@
 ; corrector
 (add-hook 'mail-mode-hook (function flyspell-mode)) 
 
-
+ 
 
