@@ -3,6 +3,7 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 ;; Tell emacs where is your personal elisp lib dir
+(server-start)				;starting emacs server in oreder to connect to it if it is allready opend
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 (load-theme 'modus-vivendi t)		;;dark theme
@@ -15,10 +16,10 @@
 (load "latex_config")	  
 (load "python_config")
 
-(add-to-list 'load-path			;load yasnippets
-              "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
-(yas-global-mode 1)
+;; (add-to-list 'load-path			;load yasnippets
+;;               "~/.emacs.d/plugins/yasnippet")
+;; (require 'yasnippet)
+;; (yas-global-mode 1)
 
 
 (define-key global-map (kbd "C-+") 'text-scale-increase) ;; increase/decrease font size
