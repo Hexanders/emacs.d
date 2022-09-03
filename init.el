@@ -11,6 +11,17 @@
 (define-key global-map (kbd "C-+") 'text-scale-increase) ;; increase/decrease font size
 (define-key global-map (kbd "C--") 'text-scale-decrease)
 
+(load "latex_config")	  
+(load "python_config") 
+
+(setq-default ispell-program-name "aspell") ;; aspell is better as ispell but call it still ispell :) ;; commend out this line if not installed or install aspell
+
+(setq speck-engine (quote Hunspell)) ;; spellchecker
+(setq speck-hunspell-language-options
+      (quote (("de" utf-8 nil t nil)
+	      ("en" utf-8 nil nil nil)
+	      ("ru" koi8-r nil nil nil))))
+
 
 (setq inhibit-startup-message t 	;;turn off message 
       visible-bell t			;;visual  
