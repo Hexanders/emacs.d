@@ -14,11 +14,13 @@
 /.cask/
 /eln-cache/
 
-# Recovery and backup directories
+# Recovery and	backup directories
 /auto-save-list/
 /.backup/
 /backups/
+
 # Cache files and settings for packages
+.#*
 /tutorial/
 /.emacs.desktop*
 /.mc-lists.el
