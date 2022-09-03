@@ -11,9 +11,6 @@
 (define-key global-map (kbd "C-+") 'text-scale-increase) ;; increase/decrease font size
 (define-key global-map (kbd "C--") 'text-scale-decrease)
 
-(global-set-key (kbd "C-x t") 'ansi-term) ; terminal
-(add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
-
 
 (setq inhibit-startup-message t 	;;turn off message 
       visible-bell t			;;visual  
