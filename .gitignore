@@ -1,6 +1,6 @@
 # Elisp byte code
 *.elc
-
+*.dat
 # Customization settings.  We ignore these because they are automatically
 # generated, contain “local” information (e.g. safe themes, automatically
 # installed packages), and most importantly, hold _sensitive_ information,
