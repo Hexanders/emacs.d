@@ -23,8 +23,30 @@
 
 (require 'use-package)
     (use-package vertico			;fuzzy finder
-		 :ensure t
-		 :init (vertico-mode))
+      :ensure t
+      :bind (:map vertico-map
+		 ("C-j" . vertico-next)
+		 ("C-k" . verticop-previous)
+		 ("C-f" . vertico-exit)
+		 :map minibuffer-local-map
+		 ("M-h" . backward-kill-word))
+      :custom
+      (vertico-cycle t)
+      :init
+      (vertico-mode))
+
+   (use-package savehist		;just saves history of visited fiels
+     :init
+     (savehist-mode))
+
+   (use-package marginalia		;file infos how crated and wenn and so one 
+     :after vertico
+     :ensure t 
+     :custom
+     (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+     :init
+     (marginalia-mode))
+      
 
 
 
@@ -132,7 +154,7 @@ buffer is not visiting a file."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(use-package vertico yasnippet-snippets ac-math tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex zotelo zotero))
+   '(marginalia use-package vertico yasnippet-snippets ac-math tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex zotelo zotero))
  '(tabbar-separator '(0.5))
  '(warning-suppress-log-types '((comp)))
  '(warning-suppress-types
