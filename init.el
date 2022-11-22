@@ -7,6 +7,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 (load-theme 'modus-vivendi t)		;;dark theme
+;; (load-theme 'badwolf t)		;;dark theme
 (set-face-attribute 'default nil :height 135) ;;set font size to heigth/10 pt
 
 
@@ -26,7 +27,7 @@
       :ensure t
       :bind (:map vertico-map
 		 ("C-j" . vertico-next)
-		 ("C-k" . verticop-previous)
+		 ("C-k" . vertico-previous)
 		 ("C-f" . vertico-exit)
 		 :map minibuffer-local-map
 		 ("M-h" . backward-kill-word))
@@ -39,7 +40,7 @@
      :init
      (savehist-mode))
 
-   (use-package marginalia		;file infos how crated and wenn and so one 
+   (use-package marginalia		;file metadata how crated and wenn and so one 
      :after vertico
      :ensure t 
      :custom
@@ -50,32 +51,6 @@
 
 
 
-
-(require 'auto-complete-latex)
-(setq ac-modes (append ac-modes '(foo-mode)))
-(add-hook 'foo-mode-hook 'ac-l-setup)
-
-
-    
-;; auto-complete setup, sequence is important
-(require 'auto-complete)
-(add-to-list 'ac-modes 'latex-mode) ; beware of using 'LaTeX-mode instead
-(require 'ac-math) ; package should be installed first 
-(defun my-ac-latex-mode () ; add ac-sources for latex
-   (setq ac-sources
-         (append '(ac-source-math-unicode
-           ac-source-math-latex
-           ac-source-latex-commands)
-                 ac-sources)))
-(add-hook 'LaTeX-mode-hook 'my-ac-latex-mode)
-(setq ac-math-unicode-in-math-p t)
-(ac-flyspell-workaround) ; fixes a known bug of delay due to flyspell (if it is there)
-(add-to-list 'ac-modes 'org-mode) ; auto-complete for org-mode (optional)
-(require 'auto-complete-config) ; should be after add-to-list 'ac-modes and hooks
-(ac-config-default)
-(setq ac-auto-start nil)            ; if t starts ac at startup automatically
-(setq ac-auto-show-menu t)
-(global-auto-complete-mode t)
 
 
 
@@ -96,6 +71,7 @@
 
 (setq-default ispell-program-name "aspell") ;; aspell is better as ispell but call it still ispell :) ;; commend out this line if not installed or install aspell
 
+
 (setq speck-engine (quote Hunspell)) ;; spellchecker
 (setq speck-hunspell-language-options
       (quote (("de" utf-8 nil t nil)
@@ -110,6 +86,7 @@
 (tool-bar-mode -1)			;;remove controll bar
 (scroll-bar-mode -1)			;;remove scroll bar
 (global-display-line-numbers-mode 1)	;;add line numbers to the screen
+(setq display-line-numbers 'relative)  	;;relative line numbers
 (hl-line-mode 1)			;;highlight whole line
 (blink-cursor-mode 1)
 
@@ -119,7 +96,7 @@
 
 
 
-;; load  packages
+;; load  0packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
@@ -147,6 +124,68 @@ buffer is not visiting a file."
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 
+
+(require 'auto-complete-latex)
+(setq ac-modes (append ac-modes '(foo-mode)))
+(add-hook 'foo-mode-hook 'ac-l-setup)
+
+;; use easy citation
+(use-package citar
+  :bind (("C-c b" . citar-insert-citation)
+         :map minibuffer-local-map
+         ("M-b" . citar-insert-preset))
+  :custom
+  (citar-bibliography '("~/Documents/DigiLab-Backup/BACKUP/PHD_theses/bibliography.bib")))
+
+;; auto-complete setup, sequence is important
+(require 'auto-complete)
+(add-to-list 'ac-modes 'latex-mode) ; beware of using 'LaTeX-mode instead
+(require 'ac-math) ; package should be installed first 
+(defun my-ac-latex-mode () ; add ac-sources for latex
+   (setq ac-sources
+         (append '(ac-source-math-unicode
+           ac-source-math-latex
+           ac-source-latex-commands)
+                 ac-sources)))
+(add-hook 'LaTeX-mode-hook 'my-ac-latex-mode)
+(setq ac-math-unicode-in-math-p t)
+(ac-flyspell-workaround) ; fixes a known bug of delay due to flyspell (if it is there)
+(add-to-list 'ac-modes 'org-mode) ; auto-complete for org-mode (optional)
+(require 'auto-complete-config) ; should be after add-to-list 'ac-modes and hooks
+(ac-config-default)
+(setq ac-auto-start nil)            ; if t starts ac at startup automatically
+(setq ac-auto-show-menu t)
+(global-auto-complete-mode t)
+
+(ac-set-trigger-key "TAB")
+(ac-set-trigger-key "<tab>")
+
+;; Jump to next punctuation  in Text like .,;: and so on
+(defvar punctuation-regex nil "A regex string for the purpose of moving cursor to a punctuation.")
+;; (setq punctuation-regex "[\\!\?\"\.'#$%&*+,/:;<=>@^`|~]+")
+(setq punctuation-regex "[\\!\?\\.,/:;]")
+
+(defun forward-punct (&optional n)
+  "Move cursor to the next occurrence of punctuation.
+The list of punctuations to jump to is defined by `xah-punctuation-regex'
+
+URL `http://xahlee.info/emacs/emacs/emacs_jump_to_punctuations.html'
+Version 2017-06-26"
+  (interactive "p")
+  (re-search-forward punctuation-regex nil t n))
+
+(global-set-key "\M--" 'forward-punct)
+
+(defun backward-punct (&optional n)
+  "Move cursor to the previous occurrence of punctuation.
+See `forward-punct'
+
+URL `http://xahlee.info/emacs/emacs/emacs_jump_to_punctuations.html'
+Version 2017-06-26"
+  (interactive "p")
+  (re-search-backward punctuation-regex nil t n))
+(global-set-key "\M-." 'backward-punct)
+
 ;;from hier some stuff wich was added by packag-list-packag
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -154,7 +193,7 @@ buffer is not visiting a file."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(marginalia use-package vertico yasnippet-snippets ac-math tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex zotelo zotero))
+   '(magit badwolf-theme citar marginalia use-package vertico yasnippet-snippets ac-math tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex))
  '(tabbar-separator '(0.5))
  '(warning-suppress-log-types '((comp)))
  '(warning-suppress-types
@@ -162,10 +201,14 @@ buffer is not visiting a file."
      (auto-save)
      (auto-save)
      (auto-save)
-     (auto-save))))
+     (auto-save)))
+ '(xref-after-return-hook nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
+(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+;; ## end of OPAM user-setup addition for emacs / base ## keep this line
