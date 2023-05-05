@@ -7,3 +7,6 @@
 
 ;; (add-hook 'latex-mode-hook 'turn-on-reftex)   ; with Emacs latex mode
 
+(setq-default TeX-master nil) ; Query for master file in AUCTeX
+	
+

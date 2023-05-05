@@ -3,14 +3,17 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 ;; Tell emacs where is your personal elisp lib dir
-(server-start)				;starting emacs server in oreder to connect to it if it is allready opend
+;; (server-start)				;starting emacs server in oreder to connect to it if it is allready opend
+
 (add-to-list 'load-path "~/.emacs.d/lisp/")
+
+(setq byte-compile-warnings '(cl-functions)) ;evoid "Package cl is deprecated" worning
 
 (load-theme 'modus-vivendi t)		;;dark theme
 ;; (load-theme 'badwolf t)		;;dark theme
 (set-face-attribute 'default nil :height 135) ;;set font size to heigth/10 pt
 
-
+;; (require 'init-web-mode)
 (require 'package) 
 
 (setq pacakge-archives '(("melpa" . "https://melpa.org/packages/")
@@ -21,6 +24,9 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
+
+(show-paren-mode t)
+(setq show-paren-style 'expression)
 
 (require 'use-package)
     (use-package vertico			;fuzzy finder
@@ -59,11 +65,43 @@
 (load "latex_config")	  
 (load "python_config")
 
-;; (add-to-list 'load-path			;load yasnippets
-;;               "~/.emacs.d/plugins/yasnippet")
-;; (require 'yasnippet)
-;; (yas-global-mode 1)
+(add-to-list 'load-path			;load yasnippets
+              "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas-global-mode 1)
+;; redefine the Yasnippet expansion key instead in order to not interfere with outocomplete
+;; https://emacs.stackexchange.com/questions/9670/yasnippet-not-working-with-auto-complete-mode
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
 
+;; ;;; use popup menu for yas-choose-value
+;; (require 'popup)
+
+;; ;; add some shotcuts in popup menu mode
+;; (define-key popup-menu-keymap (kbd "M-n") 'popup-next)
+;; (define-key popup-menu-keymap (kbd "TAB") 'popup-next)
+;; (define-key popup-menu-keymap (kbd "<C-tab>") 'popup-next)
+;; (define-key popup-menu-keymap (kbd "<backtab>") 'popup-previous)
+;; (define-key popup-menu-keymap (kbd "M-p") 'popup-previous)
+
+(defun yas-popup-isearch-prompt (prompt choices &optional display-fn)
+  (when (featurep 'popup)
+    (popup-menu*
+     (mapcar
+      (lambda (choice)
+        (popup-make-item
+         (or (and display-fn (funcall display-fn choice))
+             choice)
+         :value choice))
+      choices)
+     :prompt prompt
+     ;; start isearch mode immediately
+     :isearch t
+     )))
+
+(setq yas-prompt-functions '(yas-popup-isearch-prompt yas-maybe-ido-prompt yas-completing-prompt yas-no-prompt))
+;;;;;;;
 
 (define-key global-map (kbd "C-+") 'text-scale-increase) ;; increase/decrease font size
 (define-key global-map (kbd "C--") 'text-scale-decrease)
@@ -96,7 +134,7 @@
 
 
 
-;; load  0packages
+;; load  packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
@@ -163,7 +201,9 @@ buffer is not visiting a file."
 ;; Jump to next punctuation  in Text like .,;: and so on
 (defvar punctuation-regex nil "A regex string for the purpose of moving cursor to a punctuation.")
 ;; (setq punctuation-regex "[\\!\?\"\.'#$%&*+,/:;<=>@^`|~]+")
-(setq punctuation-regex "[\\!\?\\.,/:;]")
+;; (setq punctuation-regex "[\\!\?\\.,/:;]")
+(setq punctuation-regex "[\\!\?\\.]") 
+
 
 (defun forward-punct (&optional n)
   "Move cursor to the next occurrence of punctuation.
@@ -193,7 +233,7 @@ Version 2017-06-26"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(magit badwolf-theme citar marginalia use-package vertico yasnippet-snippets ac-math tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex))
+   '(popup undo-tree web-mode magit badwolf-theme citar marginalia use-package vertico yasnippet-snippets ac-math tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex))
  '(tabbar-separator '(0.5))
  '(warning-suppress-log-types '((comp)))
  '(warning-suppress-types
