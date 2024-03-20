@@ -109,6 +109,7 @@
 
 (setq-default ispell-program-name "aspell") ;; aspell is better as ispell but call it still ispell :) ;; commend out this line if not installed or install aspell
 
+(global-set-key (kbd "C-c ,") 'comment-or-uncomment-region) ;;; conviniet way to comment and uncommment things
 
 (setq speck-engine (quote Hunspell)) ;; spellchecker
 (setq speck-hunspell-language-options
@@ -206,22 +207,22 @@ buffer is not visiting a file."
 
 
 (defun forward-punct (&optional n)
-  "Move cursor to the next occurrence of punctuation.
-The list of punctuations to jump to is defined by `xah-punctuation-regex'
+;;   "Move cursor to the next occurrence of punctuation.
+;; The list of punctuations to jump to is defined by `xah-punctuation-regex'
 
-URL `http://xahlee.info/emacs/emacs/emacs_jump_to_punctuations.html'
-Version 2017-06-26"
+;; URL `http://xahlee.info/emacs/emacs/emacs_jump_to_punctuations.html'
+;; Version 2017-06-26"
   (interactive "p")
   (re-search-forward punctuation-regex nil t n))
 
 (global-set-key "\M--" 'forward-punct)
 
 (defun backward-punct (&optional n)
-  "Move cursor to the previous occurrence of punctuation.
-See `forward-punct'
+;;   "Move cursor to the previous occurrence of punctuation.
+;; See `forward-punct'
 
-URL `http://xahlee.info/emacs/emacs/emacs_jump_to_punctuations.html'
-Version 2017-06-26"
+;; URL `http://xahlee.info/emacs/emacs/emacs_jump_to_punctuations.html'
+;; Version 2017-06-26"
   (interactive "p")
   (re-search-backward punctuation-regex nil t n))
 (global-set-key "\M-." 'backward-punct)
@@ -233,7 +234,7 @@ Version 2017-06-26"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(popup undo-tree web-mode magit badwolf-theme citar marginalia use-package vertico yasnippet-snippets ac-math tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex))
+   '(helm-descbinds multiple-cursors popup undo-tree web-mode magit badwolf-theme citar marginalia use-package vertico yasnippet-snippets ac-math tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex))
  '(tabbar-separator '(0.5))
  '(warning-suppress-log-types '((comp)))
  '(warning-suppress-types
