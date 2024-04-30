@@ -109,7 +109,19 @@
 
 (setq-default ispell-program-name "aspell") ;; aspell is better as ispell but call it still ispell :) ;; commend out this line if not installed or install aspell
 
-(global-set-key (kbd "C-c ,") 'comment-or-uncomment-region) ;;; conviniet way to comment and uncommment things
+
+
+(defun comment-line-or-region ()
+  "Comment or uncomment the current line or region."
+  (interactive)
+  (if (use-region-p)
+      (comment-or-uncomment-region (region-beginning) (region-end))
+    (save-excursion
+      (comment-or-uncomment-region
+       (line-beginning-position)
+       (line-end-position)))))
+
+(global-set-key (kbd "C-c ,") 'comment-line-or-region)
 
 (setq speck-engine (quote Hunspell)) ;; spellchecker
 (setq speck-hunspell-language-options
@@ -234,7 +246,7 @@ buffer is not visiting a file."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(helm-descbinds multiple-cursors popup undo-tree web-mode magit badwolf-theme citar marginalia use-package vertico yasnippet-snippets ac-math tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex))
+   '(swiper helm-descbinds multiple-cursors popup undo-tree web-mode magit badwolf-theme citar marginalia use-package vertico yasnippet-snippets ac-math tabbar lsp-java lsp-ltex lsp-mode lsp-python-ms lsp-ui auctex))
  '(tabbar-separator '(0.5))
  '(warning-suppress-log-types '((comp)))
  '(warning-suppress-types
